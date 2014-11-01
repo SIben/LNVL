@@ -15,7 +15,8 @@ START = Scene {
 }
 
 ROOM = Scene {
-    Eric "Now I am in a room, about to enter the bathroom."
+    Eric "Now I am in a room, about to enter the bathroom.",
+    ChangeToScene "BATHROOM"
 }
 
 BATHROOM = Scene {
