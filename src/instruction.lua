@@ -183,7 +183,7 @@ Implementations["set-scene"] = Instruction:new {
     action = function (arguments)
         local scene = LNVL.ScriptEnvironment[arguments.name]
 
-        assert(scene == nil,
+        assert(scene ~= nil,
                "Cannot find scene with variable name " .. arguments.name)
         assert(getmetatable(scene) == LNVL.Scene,
                arguments.name .. " is a variable but not a Scene")
@@ -192,8 +192,12 @@ Implementations["set-scene"] = Instruction:new {
         -- making the transition.
         if scene["preconditions"] ~= nil then
             for _,requisite in pairs(scene.preconditions) do
-                assert(LNVL.ScriptEnvironment[requisite] ~= nil
-                           and getmetatable(LNVL.ScriptEnvironment[requisite] == LNVL.Scene))
+				-- Probably useless to check whether
+				-- LNVL.ScriptEnvironment[requisite] exists if we're already
+				-- checking if the scene was visited ?
+				assert(LNVL.VisitedScenes[requisite] == true)
+                -- assert(LNVL.ScriptEnvironment[requisite] ~= nil
+                --           and getmetatable(LNVL.ScriptEnvironment[requisite] == LNVL.Scene))
             end
         end
 
